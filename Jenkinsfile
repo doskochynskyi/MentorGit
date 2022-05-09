@@ -11,7 +11,7 @@ pipeline {
     stage('test'){
       steps{
          echo 'test'
-	 npm test
+	 bat 'npm test'
       }
     }
     stage('apply'){
