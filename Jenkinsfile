@@ -11,6 +11,7 @@ pipeline {
     stage('test'){
       steps{
          echo 'test'
+	 nodejs(nodeJSInstallationName: 'NodeJSauto')
 	 bat 'npm test'
       }
     }
