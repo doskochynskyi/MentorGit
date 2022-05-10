@@ -10,8 +10,8 @@ pipeline {
     }
     stage('test'){
       steps{
-         echo 'test'
-	 bat 'npm test'
+         echo 'install'
+	 bat 'npm install'
       }
     }
     stage('apply'){
