@@ -21,7 +21,7 @@ pipeline {
     stage('test'){
       steps{
          echo 'test'
-	 bat 'npm config ls'
+	 bat 'npm test'
 	 //bat 'npm install npm -g'
 	 //bat 'npm test'
       }
