@@ -30,7 +30,7 @@ pipeline {
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 //docker build --tag node-docker .
+	 bat 'docker build --tag node-docker .'
          //bat 'terraform apply --auto-approve'
       }
     }
