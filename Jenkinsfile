@@ -13,7 +13,8 @@ pipeline {
     }
     stage('Install dependencies') {
       steps {
-        bat 'npm install --global windows-build-tools'
+        echo "use config nodejs to install dep"
+	//bat 'npm install --global windows-build-tools'
       }
     }
 
