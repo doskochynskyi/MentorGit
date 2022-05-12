@@ -11,12 +11,18 @@ pipeline {
         //git 'https://github.com/doskochynskyi/Jenkins.git'
       }
     }
+    stage('Install dependencies') {
+      steps {
+        bat 'npm install'
+      }
+    }
+
     stage('test'){
       steps{
          echo 'test'
-	 bat 'npm config ls'
+	 //bat 'npm config ls'
 	 //bat 'npm install npm -g'
-	 //bat 'npm test'
+	 bat 'npm test'
       }
     }
     stage('apply'){
