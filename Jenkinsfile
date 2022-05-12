@@ -26,13 +26,15 @@ pipeline {
 	 //bat 'npm test'
       }
     }
+
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 docker build --tag node-docker .
+	 //docker build --tag node-docker .
          //bat 'terraform apply --auto-approve'
       }
     }
+    
     stage('pushimage'){
       steps{
          echo 'push image to registry'
@@ -40,6 +42,7 @@ pipeline {
          //bat 'terraform apply --auto-approve'
       }
     }
+
 
   }
 }
