@@ -21,16 +21,25 @@ pipeline {
     stage('test'){
       steps{
          echo 'test'
-	 bat 'npm test'
+	 //bat 'npm test'
 	 //bat 'npm install npm -g'
 	 //bat 'npm test'
       }
     }
-    stage('apply'){
+    stage('builddocker'){
       steps{
-         echo 'apply'
+         echo 'build docker'
+	 docker build --tag node-docker .
          //bat 'terraform apply --auto-approve'
       }
     }
+    stage('pushimage'){
+      steps{
+         echo 'push image to registry'
+	 //docker tag node-docker acrmentor.azurecr.io/node-docker:v1
+         //bat 'terraform apply --auto-approve'
+      }
+    }
+
   }
 }
