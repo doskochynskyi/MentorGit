@@ -13,16 +13,16 @@ pipeline {
     }
     stage('Install dependencies') {
       steps {
-        bat 'npm install --python="C:\Program Files\Python\python.exe"'
+        bat 'npm install'
       }
     }
 
     stage('test'){
       steps{
          echo 'test'
-	 //bat 'npm config ls'
+	 bat 'npm config ls'
 	 //bat 'npm install npm -g'
-	 bat 'npm test'
+	 //bat 'npm test'
       }
     }
     stage('apply'){
