@@ -1,7 +1,7 @@
 pipeline {
   agent any
 
-  tools {nodejs "NodeJScomp"}
+  tools {nodejs "NodeJSauto"}
   
   stages{
     stage('checkout'){
