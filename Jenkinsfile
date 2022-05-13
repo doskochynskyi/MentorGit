@@ -46,10 +46,11 @@ environment {
     
     stage('pushimage'){
       steps{
-        
+        echo 'push image to ACR'  
 	 //docker tag node-docker acrmentor.azurecr.io/node-docker:v1
          //bat 'terraform apply --auto-approve'
       }
+
     }
 
 
