@@ -1,4 +1,10 @@
 pipeline {
+
+environment {
+  imagename = "node-docker-mnt"
+  registryCredential = 'azurekv...'
+  dockerImage = ''
+}
   agent any
 
   tools {nodejs "NodeJSauto"}
@@ -30,14 +36,17 @@ pipeline {
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 bat 'docker build --tag node-docker .'
+	 script {
+           dockerImage = docker.build imagename
+         }      
+	 // bat 'docker build --tag node-docker .'
          //bat 'terraform apply --auto-approve'
       }
     }
     
     stage('pushimage'){
       steps{
-         echo 'push image to registry'
+        
 	 //docker tag node-docker acrmentor.azurecr.io/node-docker:v1
          //bat 'terraform apply --auto-approve'
       }
