@@ -36,10 +36,10 @@ environment {
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 script {
-           dockerImage = docker.build imagename
-         }      
-	 // bat 'docker build --tag node-docker .'
+	 //script {
+         //  dockerImage = docker.build imagename
+         //}      
+	 bat 'docker build --tag node-docker-bat .'
          //bat 'terraform apply --auto-approve'
       }
     }
