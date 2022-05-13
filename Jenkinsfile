@@ -48,6 +48,7 @@ environment {
       steps{
         echo 'push image to ACR'  
 	bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:v1'
+	bat 'docker push acrmentor.azurecr.io/node-docker-mnt:v1'
         //bat 'terraform apply --auto-approve'
       }
 
