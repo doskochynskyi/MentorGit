@@ -40,7 +40,6 @@ environment {
          //  dockerImage = docker.build imagename
          //}      
 	 bat 'docker build --tag node-docker-mnt .'
-         //bat 'terraform apply --auto-approve'
       }
     }
     
