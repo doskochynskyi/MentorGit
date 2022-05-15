@@ -4,6 +4,7 @@ environment {
   imagename = "node-docker-mnt"
   registryCredential = 'azurekv...'
   dockerImage = ''
+  BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
 }
   agent any
 
@@ -12,7 +13,8 @@ environment {
   stages{
     stage('checkout'){
     steps{
-         echo 'Get files from git'
+        echo 'Get files from git'
+	echo BRANCH_NAME
         git branch: 'feature/Jenkinsfile1.0', url: 'https://github.com/doskochynskyi/MentorGit.git'
         //git 'https://github.com/doskochynskyi/Jenkins.git'
       }
