@@ -54,8 +54,8 @@ environment {
         echo 'push image to ACR'  
 	bat 'az login --identity'
 	bat 'az acr login --name acrmentor'
-	//bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:v1'
-	//bat 'docker push acrmentor.azurecr.io/node-docker-mnt:v1'
+	bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
+	bat 'docker push acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
         //bat 'terraform apply --auto-approve'
       }
 
