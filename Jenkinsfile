@@ -4,7 +4,8 @@ environment {
   imagename = "node-docker-mnt"
   registryCredential = 'azurekv...'
   dockerImage = ''
-  BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+  //BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
+  BRANCH_NAME = "${GIT_BRANCH}"
 }
   agent any
 
