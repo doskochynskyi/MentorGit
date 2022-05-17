@@ -45,7 +45,7 @@ environment {
 	 //script {
          //  dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
          //}      
-	 bat 'docker build --tag %imagename% .'
+	 bat 'docker build --tag %imagename%:%BRANCH_NAME% .'
       }
     }
     
