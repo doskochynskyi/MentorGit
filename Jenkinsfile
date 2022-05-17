@@ -42,10 +42,10 @@ environment {
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 //script {
-         //  dockerImage = docker.build imagename
-         //}      
-	 bat 'docker build --tag node-docker-mnt .'
+	 script {
+           dockerImage = docker.build imagename("${imagename}:${env.BRANCH_NAME}")
+         }      
+	 //bat 'docker build --tag node-docker-mnt .'
       }
     }
     
@@ -54,8 +54,16 @@ environment {
         echo 'push image to ACR'  
 	bat 'az login --identity'
 	bat 'az acr login --name acrmentor'
-	bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
-	bat 'docker push acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
+	//bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
+	//bat 'docker push acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
+
+        docker.withRegistry('https://acrmentor.azurecr.io') {
+
+        //def customImage = docker.build("my-image:${env.BUILD_ID}")
+
+        /* Push the container to the custom Registry */
+        dockerImage.push()
+        }
         //bat 'terraform apply --auto-approve'
       }
 
