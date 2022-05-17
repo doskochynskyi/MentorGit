@@ -42,10 +42,10 @@ environment {
     stage('builddocker'){
       steps{
          echo 'build docker'
-	 script {
-           dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
-         }      
-	 //bat 'docker build --tag node-docker-mnt .'
+	 //script {
+         //  dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
+         //}      
+	 bat 'docker build --tag ${imagename} .'
       }
     }
     
