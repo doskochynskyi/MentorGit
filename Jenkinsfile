@@ -43,7 +43,7 @@ environment {
       steps{
          echo 'build docker'
 	 script {
-           dockerImage = docker.build imagename("${imagename}:${env.BRANCH_NAME}")
+           dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
          }      
 	 //bat 'docker build --tag node-docker-mnt .'
       }
@@ -57,13 +57,13 @@ environment {
 	//bat 'docker tag node-docker-mnt acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
 	//bat 'docker push acrmentor.azurecr.io/node-docker-mnt:${BRANCH_NAME}'
 
-        docker.withRegistry('https://acrmentor.azurecr.io') {
+        //docker.withRegistry('https://acrmentor.azurecr.io') {
 
         //def customImage = docker.build("my-image:${env.BUILD_ID}")
 
         /* Push the container to the custom Registry */
-        dockerImage.push()
-        }
+        //dockerImage.push()
+        //}
         //bat 'terraform apply --auto-approve'
       }
 
