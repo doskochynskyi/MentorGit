@@ -68,6 +68,11 @@ environment {
       }
 
     }
+    stage('deploy'){
+      steps{
+        bat 'az container create --resource-group RGContainer --name nodemnt --image acrmentor.azurecr.io/%imagename%:%BRANCH_NAME% --dns-name-label nodemnt --ports 80'
+      }
+    }
 
   }
 }
