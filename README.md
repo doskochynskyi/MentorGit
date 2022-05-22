@@ -1,6 +1,5 @@
 # Simple Dockerized CRUD Node.js Web App & Unit Tests
 
-
 A nice project with a nice description
 
 ---
