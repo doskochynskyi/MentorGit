@@ -69,12 +69,12 @@ environment {
 
     }
 
-    stage('settag'){
+    stage('set tag'){
       steps{
         git rev-parse --short HEAD
-        TAG = git rev-parse --short HEAD
-        echo $TAG
-        echo %TAG%
+        //TAG = git rev-parse --short HEAD
+        //echo $TAG
+        //echo %TAG%
       }
     }
 
