@@ -69,7 +69,7 @@ environment {
 
     }
 
-    stage('set tag'){
+    stage('settag'){
       steps{
         git rev-parse --short HEAD
         TAG = git rev-parse --short HEAD
