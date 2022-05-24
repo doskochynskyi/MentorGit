@@ -72,8 +72,13 @@ environment {
     stage('set tag'){
       steps{
         echo 'set tag'
-        DEV_TAG = bat 'git rev-parse --short HEAD'
-	echo %DEV_TAG%
+	  script {
+                    DEV_TAG = powershell returnStdout: true, script: 'git rev-parse --short HEAD'
+
+                }
+                echo DEV_TAG
+        //DEV_TAG = bat 'git rev-parse --short HEAD'
+	//echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
         //echo $TAG
         //echo %TAG%
