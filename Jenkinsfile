@@ -8,7 +8,7 @@ environment {
   FULL_BRANCH_NAME = "${GIT_BRANCH}"
   LOCAL_BRANCH_NAME = "${GIT_LOCAL_BRANCH}"
 }
-  agent any
+  agent {label 'Windows'}
 
   tools {nodejs "NodeJSauto"}
   
