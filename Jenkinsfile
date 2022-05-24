@@ -77,7 +77,7 @@ environment {
 
                 }
           echo DEV_TAG
-          powershell 'git tag -a DEV_TAG'  
+          bat 'git tag -a DEV_TAG'  
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
