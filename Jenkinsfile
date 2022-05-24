@@ -1,5 +1,6 @@
 pipeline {
 
+
 environment {
   imagename = "node-docker-mnt"
   registryCredential = 'azurekv...'
@@ -8,7 +9,7 @@ environment {
   FULL_BRANCH_NAME = "${GIT_BRANCH}"
   LOCAL_BRANCH_NAME = "${GIT_LOCAL_BRANCH}"
 }
-  agent any
+  agent linux
 
   tools {nodejs "NodeJSauto"}
   
@@ -45,17 +46,17 @@ environment {
 	 //script {
          //  dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
          //}      
-	 bat 'docker build --tag %imagename%:%BRANCH_NAME% .'
+	 sh'docker build --tag %imagename%:%BRANCH_NAME% .'
       }
     }
     
     stage('pushimage'){
       steps{
         echo 'push image to ACR'  
-	bat 'az login --identity'
-	bat 'az acr login --name acrmentor'
-	bat 'docker tag %imagename%:%BRANCH_NAME% acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
-	bat 'docker push acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
+	//bat 'az login --identity'
+	//bat 'az acr login --name acrmentor'
+	//bat 'docker tag %imagename%:%BRANCH_NAME% acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
+	//bat 'docker push acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
 
         //docker.withRegistry('https://acrmentor.azurecr.io') {
 
@@ -71,7 +72,7 @@ environment {
 
     stage('set tag'){
       steps{
-        git rev-parse --short HEAD
+        //git rev-parse --short HEAD
         //TAG = git rev-parse --short HEAD
         //echo $TAG
         //echo %TAG%
