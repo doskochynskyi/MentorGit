@@ -77,11 +77,13 @@ environment {
 
                 }
           echo DEV_TAG
-	powershell ('
-                    git config user.name 'Ivan'
+	  script {
+	  powershell returnStdout: true, script: '
+	           git config user.name 'Ivan'
                     git config user.email 'ivan.doskochynskyi@gmail.com'
                     git tag -a DEV_TAG 
-                ')
+                '
+		}
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
