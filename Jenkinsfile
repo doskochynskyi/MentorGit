@@ -9,7 +9,7 @@ environment {
   FULL_BRANCH_NAME = "${GIT_BRANCH}"
   LOCAL_BRANCH_NAME = "${GIT_LOCAL_BRANCH}"
 }
-  agent {label linux}
+  agent {label linux1}
 
   tools {nodejs "NodeJSauto"}
   
