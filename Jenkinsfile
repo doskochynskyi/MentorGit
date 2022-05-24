@@ -72,7 +72,8 @@ environment {
     stage('set tag'){
       steps{
         echo 'set tag'
-        //git rev-parse --short HEAD
+        DEV_TAG = bat 'git rev-parse --short HEAD'
+	echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
         //echo $TAG
         //echo %TAG%
