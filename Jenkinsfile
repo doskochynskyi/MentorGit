@@ -54,8 +54,8 @@ environment {
         echo 'push image to ACR'  
 	bat 'az login --identity'
 	bat 'az acr login --name acrmentor'
-	bat 'docker tag %imagename%:%BRANCH_NAME% acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
-	bat 'docker push acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
+	//bat 'docker tag %imagename%:%BRANCH_NAME% acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
+	//bat 'docker push acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
 
         //docker.withRegistry('https://acrmentor.azurecr.io') {
 
@@ -76,10 +76,10 @@ environment {
                     DEV_TAG = powershell returnStdout: true, script: 'git rev-parse --short HEAD'
 
                 }
-          echo DEV_TAG
+          echo ${DEV_TAG}
 	  script {
 	      //git config user.name 'Ivan'
-              powershell returnStdout: true, script: 'git config user.email 'ivan.doskochynskyi@gmail.com''
+              //powershell returnStdout: true, script: 'git config user.email 'ivan.doskochynskyi@gmail.com''
               //git tag -a DEV_TAG 
                 
           }
