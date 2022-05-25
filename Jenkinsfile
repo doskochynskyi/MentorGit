@@ -76,7 +76,7 @@ environment {
                     DEV_TAG = powershell returnStdout: true, script: 'git rev-parse --short HEAD'
 
                 }
-          echo "${DEV_TAG}"
+          echo '${DEV_TAG}'
 	  script {
 	      //git config user.name 'Ivan'
               //powershell returnStdout: true, script: 'git config user.email 'ivan.doskochynskyi@gmail.com''
