@@ -17,6 +17,7 @@ environment {
     steps{
         echo 'Get files from git'
 	echo GIT_URL
+	echo GIT_COMMIT
 	echo BRANCH_NAME
 	echo FULL_BRANCH_NAME
 	echo LOCAL_BRANCH_NAME
@@ -81,8 +82,8 @@ environment {
 	  powershell returnStdout: true, script: '''
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
-              git tag -a DEV_TAG -m "jenkins tag"
-              git push origin DEV_TAG
+              #git tag -a DEV_TAG -m "jenkins tag"
+              #git push origin DEV_TAG
           '''
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
