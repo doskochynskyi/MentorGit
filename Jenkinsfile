@@ -80,7 +80,7 @@ environment {
 	  powershell returnStdout: true, script: '''
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
-              git tag -a DEV_TAG
+              git tag -a DEV_TAG -m "jenkins tag"
               git push origin DEV_TAG
           '''
 
