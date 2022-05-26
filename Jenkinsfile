@@ -84,7 +84,9 @@ environment {
 	  powershell returnStdout: true, script: '''
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
+	      echo 'set tag in local repo'
               git tag -a $env:GIT_COMMIT_SHORT -m "jenkins tag"
+              echo 'push tag to remote repo'
               git push origin $env:GIT_COMMIT_SHORT
           '''
 
