@@ -88,9 +88,13 @@ environment {
 	      set-content setlocal.txt 'set tag in local repo'
               git tag -a $env:GIT_COMMIT_SHORT -m "jenkins tag"
               set-content startpush.txt 'start push tag to remote repo'
-	      git push origin --tags
+	      //git push origin --tags
               set-content finishpush.txt 'finish push tag to remote repo'
           '''
+	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+	       echo ${GIT_USERNAME}
+                        //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
+          }
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
