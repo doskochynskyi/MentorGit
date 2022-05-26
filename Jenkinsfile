@@ -84,8 +84,8 @@ environment {
 	  powershell returnStdout: true, script: '''
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
-              git tag -a GIT_COMMIT_SHORT -m "jenkins tag"
-              git push origin GIT_COMMIT_SHORT
+              git tag -a $env:GIT_COMMIT_SHORT -m "jenkins tag"
+              git push origin $env:GIT_COMMIT_SHORT
           '''
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
