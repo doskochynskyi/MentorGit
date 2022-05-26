@@ -82,6 +82,7 @@ environment {
                 }
           echo '${DEV_TAG}'
 	  powershell returnStdout: true, script: '''
+	      echo 'tag section started'
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
 	      echo 'set tag in local repo'
