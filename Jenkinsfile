@@ -87,8 +87,9 @@ environment {
               git config user.email 'ivan.doskochynskyi@gmail.com'
 	      set-content setlocal.txt 'set tag in local repo'
               git tag -a $env:GIT_COMMIT_SHORT -m "jenkins tag"
-              set-content push.txt 'push tag to remote repo'
+              set-content startpush.txt 'start push tag to remote repo'
 	      git push origin --tags
+              set-content finishpush.txt 'finish push tag to remote repo'
           '''
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
