@@ -77,8 +77,14 @@ environment {
 
                 }
           echo '${DEV_TAG}'
+	  powershell returnStdout: true, script: '''
+              git config user.name 'Ivan'
+              git config user.email 'ivan.doskochynskyi@gmail.com'
+              git tag -a DEV_TAG
+          '''
+
 	  script {
-	      //git config user.name 'Ivan'
+	     //git config user.name 'Ivan'
               //powershell returnStdout: true, script: 'git config user.email 'ivan.doskochynskyi@gmail.com''
               //git tag -a DEV_TAG 
                 
