@@ -82,13 +82,13 @@ environment {
                 }
           echo '${DEV_TAG}'
 	  powershell returnStdout: true, script: '''
-	      echo 'tag section started'
+	      set-content start.txt 'tag section started'
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
-	      echo 'set tag in local repo'
+	      set-content setlocal.txt 'set tag in local repo'
               git tag -a $env:GIT_COMMIT_SHORT -m "jenkins tag"
-              echo 'push tag to remote repo'
-              git push origin $env:GIT_COMMIT_SHORT
+              set-content push.txt 'push tag to remote repo'
+	      git push origin --tags
           '''
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
