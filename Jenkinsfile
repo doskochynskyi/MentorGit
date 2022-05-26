@@ -93,6 +93,8 @@ environment {
           '''
 	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
 	       powershell 'echo ${GIT_USERNAME}'
+	       powershell 'with cred line1'
+	       powershell 'with cred line2'
                         //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
           }
 
