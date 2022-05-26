@@ -92,9 +92,7 @@ environment {
               set-content finishpush.txt 'finish push tag to remote repo'
           '''
 	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-	       powershell 'echo ${GIT_USERNAME}'
-	       powershell 'with cred line1'
-	       powershell 'with cred line2'
+	       powershell 'set-content withcred.txt $env:GIT_USERNAME'
                         //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
           }
 
