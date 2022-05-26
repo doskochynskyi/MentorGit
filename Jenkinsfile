@@ -16,10 +16,11 @@ environment {
     stage('checkout'){
     steps{
         echo 'Get files from git'
+	echo GIT_URL
 	echo BRANCH_NAME
 	echo FULL_BRANCH_NAME
 	echo LOCAL_BRANCH_NAME
-        git branch: 'feature/Jenkinsfile1.0', url: 'https://github.com/doskochynskyi/MentorGit.git'
+        git branch: BRANCH_NAME, url: GIT_URL
         //git 'https://github.com/doskochynskyi/Jenkins.git'
       }
     }
