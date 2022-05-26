@@ -7,6 +7,7 @@ environment {
   BRANCH_NAME = "${GIT_BRANCH.split("/")[1]}"
   FULL_BRANCH_NAME = "${GIT_BRANCH}"
   LOCAL_BRANCH_NAME = "${GIT_LOCAL_BRANCH}"
+  GIT_COMMIT_SHORT = GIT_COMMIT.substring(0, 7)
 }
   agent {label 'Windows'}
 
@@ -18,6 +19,7 @@ environment {
         echo 'Get files from git'
 	echo GIT_URL
 	echo GIT_COMMIT
+	echo GIT_COMMIT_SHORT
 	echo BRANCH_NAME
 	echo FULL_BRANCH_NAME
 	echo LOCAL_BRANCH_NAME
@@ -82,8 +84,8 @@ environment {
 	  powershell returnStdout: true, script: '''
               git config user.name 'Ivan'
               git config user.email 'ivan.doskochynskyi@gmail.com'
-              #git tag -a DEV_TAG -m "jenkins tag"
-              #git push origin DEV_TAG
+              git tag -a GIT_COMMIT_SHORT -m "jenkins tag"
+              git push origin GIT_COMMIT_SHORT
           '''
 
         //DEV_TAG = bat 'git rev-parse --short HEAD'
