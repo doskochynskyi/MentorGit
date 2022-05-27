@@ -49,17 +49,17 @@ environment {
 	 //script {
          //  dockerImage = docker.build ("${imagename}:${env.BRANCH_NAME}")
          //}      
-	 bat 'docker build --tag %imagename%:%BRANCH_NAME% .'
+	 bat 'docker build --tag %imagename%:%GIT_COMMIT_SHORT% .'
       }
     }
     
     stage('pushimage'){
       steps{
         echo 'push image to ACR'  
-	bat 'az login --identity'
-	bat 'az acr login --name acrmentor'
-	//bat 'docker tag %imagename%:%BRANCH_NAME% acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
-	//bat 'docker push acrmentor.azurecr.io/%imagename%:%BRANCH_NAME%'
+	//bat 'az login --identity'
+	//bat 'az acr login --name acrmentor'
+	bat 'docker tag %imagename%:%GIT_COMMIT_SHORT% acrmentor.azurecr.io/%imagename%:%GIT_COMMIT_SHORT%'
+	bat 'docker push acrmentor.azurecr.io/%imagename%:%GIT_COMMIT_SHORT%'
 
         //docker.withRegistry('https://acrmentor.azurecr.io') {
 
