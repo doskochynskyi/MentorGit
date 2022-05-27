@@ -110,6 +110,7 @@ environment {
 	        mkdir IaC
 		cd IaC
 		git clone  https://github.com/doskochynskyi/MentorIaC.git'
+		'''
           }
 
 
