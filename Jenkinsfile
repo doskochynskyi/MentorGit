@@ -93,8 +93,8 @@ environment {
           '''
 	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
 	       powershell 'set-content withcred.txt $env:GIT_USERNAME'
-	       //powershell 'git push https://$env:GIT_USERNAME\:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git --tags'
-	       powershell 'set-content withcredpush.txt https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git '
+	       powershell 'git push https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git --tags'
+	       //powershell 'set-content withcredpush.txt https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git '
                         //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
           }
 
