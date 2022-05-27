@@ -107,6 +107,8 @@ environment {
 
           withCredentials([gitUsernamePassword(credentialsId: 'tokenforjenkins', gitToolName: 'GitAuto')]) {
               powershell '''
+                git config user.name 'Ivan'
+                git config user.email 'ivan.doskochynskyi@gmail.com'
 	        mkdir IaC
 		cd IaC
 		git clone  https://github.com/doskochynskyi/MentorIaC.git
