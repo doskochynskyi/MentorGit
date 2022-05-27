@@ -107,14 +107,14 @@ environment {
 
           withCredentials([gitUsernamePassword(credentialsId: 'tokenforjenkins', gitToolName: 'GitAuto')]) {
               powershell '''
-                git config user.name 'Ivan'
-                git config user.email 'ivan.doskochynskyi@gmail.com'
 		rmdir IaC -Recurse -Force 
 		mkdir IaC
 		cd IaC
 		git clone  https://github.com/doskochynskyi/MentorIaC.git
 		#git pull origin
 		cd MentorIaC
+                git config user.name 'Ivan'
+                git config user.email 'ivan.doskochynskyi@gmail.com'
 		git checkout dev
 		set-content Ansible.yaml $env:GIT_COMMIT_SHORT
 		git add .
