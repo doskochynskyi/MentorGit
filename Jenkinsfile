@@ -109,7 +109,7 @@ environment {
               powershell '''
 	        mkdir IaC
 		cd IaC
-		git clone  https://github.com/doskochynskyi/MentorIaC.git'
+		git clone  https://github.com/doskochynskyi/MentorIaC.git
 		'''
           }
 
