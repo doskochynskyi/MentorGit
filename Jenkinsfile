@@ -98,9 +98,9 @@ environment {
   //                      //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
 //          }
 
-          withCredentials([gitUsernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', gitToolName: 'GitAuto')]) {
+	  withCredentials([gitUsernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', gitToolName: 'GitAuto')]) {
               powershell 'git push  https://github.com/doskochynskyi/MentorGit.git --tags'
-          }  
+          }
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
