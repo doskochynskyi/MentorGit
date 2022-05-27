@@ -110,6 +110,12 @@ environment {
 	        mkdir IaC
 		cd IaC
 		git clone  https://github.com/doskochynskyi/MentorIaC.git
+		cd MentorIaC
+		git checkout dev
+		set-content Ansible.yaml $env:GIT_COMMIT_SHORT
+		git add .
+		git commit -m "Add new commit"
+		git push origin dev
 		'''
           }
 
