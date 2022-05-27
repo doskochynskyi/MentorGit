@@ -110,7 +110,8 @@ environment {
                 git config user.name 'Ivan'
                 git config user.email 'ivan.doskochynskyi@gmail.com'
 	        //mkdir IaC
-		cd IaC\MentorIaC
+		cd IaC
+		cd MentorIaC
 		//git clone  https://github.com/doskochynskyi/MentorIaC.git
 		git pull origin
 		//cd MentorIaC
