@@ -56,8 +56,8 @@ environment {
     stage('pushimage'){
       steps{
         echo 'push image to ACR'  
-	//bat 'az login --identity'
-	//bat 'az acr login --name acrmentor'
+	bat 'az login --identity'
+	bat 'az acr login --name acrmentor'
 	bat 'docker tag %imagename%:%GIT_COMMIT_SHORT% acrmentor.azurecr.io/%imagename%:%GIT_COMMIT_SHORT%'
 	bat 'docker push acrmentor.azurecr.io/%imagename%:%GIT_COMMIT_SHORT%'
 
