@@ -109,12 +109,11 @@ environment {
               powershell '''
                 git config user.name 'Ivan'
                 git config user.email 'ivan.doskochynskyi@gmail.com'
-	        //mkdir IaC
+		rmdir IaC -Recurse -Force 
 		cd IaC
+		git clone  https://github.com/doskochynskyi/MentorIaC.git
+		#git pull origin
 		cd MentorIaC
-		//git clone  https://github.com/doskochynskyi/MentorIaC.git
-		git pull origin
-		//cd MentorIaC
 		git checkout dev
 		set-content Ansible.yaml $env:GIT_COMMIT_SHORT
 		git add .
