@@ -91,13 +91,16 @@ environment {
 	      #git push origin --tags
               set-content finishpush.txt 'finish push tag to remote repo'
           '''
-	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-	       powershell 'set-content withcred.txt $env:GIT_USERNAME'
-	       powershell 'git push https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git --tags'
-	       //powershell 'set-content withcredpush.txt https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git '
-                        //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
-          }
+//	  withCredentials([usernamePassword(credentialsId: 'UsernamePwDoskochynskyiGit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+//	       powershell 'set-content withcred.txt $env:GIT_USERNAME'
+//	       powershell 'git push https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git --tags'
+//	       //powershell 'set-content withcredpush.txt https://$env:GIT_USERNAME`:$env:GIT_PASSWORD@github.com/doskochynskyi/MentorGit.git '
+  //                      //powershell ('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@GIT_URL')
+//          }
 
+          withCredentials([gitUsernamePassword(credentialsId: 'my-credentials-id', gitToolName: 'GitAuto')]) {
+              powershell 'git push  https://github.com/doskochynskyi/MentorGit.git --tags'
+          }  
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
         //TAG = git rev-parse --short HEAD
