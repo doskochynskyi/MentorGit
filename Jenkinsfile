@@ -102,7 +102,7 @@ environment {
           */
 
 	  withCredentials([gitUsernamePassword(credentialsId: 'tokenforjenkins', gitToolName: 'GitAuto')]) {
-              powershell 'git push  https://github.com/doskochynskyi/MentorGit.git --tags'
+              powershell 'git push  https://github.com/doskochynskyi/MentorGit.git $env:GIT_COMMIT_SHORT'
           }
         //DEV_TAG = bat 'git rev-parse --short HEAD'
 	//echo %DEV_TAG%
