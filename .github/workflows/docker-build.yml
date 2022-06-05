@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ "dev" ]
 
+env:
+  dockerimage: node-docker-mnt
+      
 jobs:
 
   build:
@@ -19,9 +22,22 @@ jobs:
       run: echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag node-docker-mnt:${SHORT_COMMIT_SHA}
+      run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
 
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        echo ${{ github.sha }}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${{ github.sha }}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${{ github.sha }}
+
+    
