@@ -20,3 +20,8 @@ jobs:
 
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag node-docker-mnt:${SHORT_COMMIT_SHA}
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
