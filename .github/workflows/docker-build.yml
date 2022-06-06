@@ -33,7 +33,7 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     
-  build:
+  buildanddeploy:
     runs-on: ubuntu-latest
     steps:
 
@@ -61,9 +61,6 @@ jobs:
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
         
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
       with:
