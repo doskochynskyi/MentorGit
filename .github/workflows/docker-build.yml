@@ -24,13 +24,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Add SHORT_COMMIT_SHA env property with bash cut
-      run: echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-
-    #- name: Build the Docker image
-    #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
-
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -43,6 +36,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Add SHORT_COMMIT_SHA env property with bash cut
+      run: echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
+
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
