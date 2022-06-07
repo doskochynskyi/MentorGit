@@ -1,0 +1,83 @@
+name: Docker Image CI
+
+on: 
+  push:
+  pull_request:
+    branches: 
+      - master
+      - 'releases/**'
+      - dev
+  
+env:
+  dockerimage: node-docker-mnt
+      
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        #node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    
+  buildanddeploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add SHORT_COMMIT_SHA env property with bash cut
+      run: |
+        echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        echo ${SHORT_COMMIT_SHA}
+    
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        echo ${{ github.sha }}
+        echo ${SHORT_COMMIT_SHA}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
+   
+    #- name: 'Deploy to Azure Container Instances'
+    #  uses: 'azure/aci-deploy@v1'
+    #  with:
+    #    resource-group: ${{ secrets.RESOURCE_GROUP }}
+    #    dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+    #    ports: 3000
+    #    image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{ env.SHORT_COMMIT_SHA}}
+    #    registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+    #    registry-username: ${{ secrets.REGISTRY_USERNAME }}
+    #    registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+    #    name: node-app
+    #    location: 'west europe'
+
+    
