@@ -39,8 +39,9 @@ jobs:
     steps:
 
     - name: Add SHORT_COMMIT_SHA env property with bash cut
-    - run: echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-    - run: echo ${SHORT_COMMIT_SHA}
+      run: |
+        echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        echo ${SHORT_COMMIT_SHA}
     
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
@@ -58,6 +59,7 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
         echo ${{ github.sha }}
+        echo ${SHORT_COMMIT_SHA}
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
         docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
