@@ -44,28 +44,20 @@ jobs:
     - name: Add SHORT_COMMIT_SHA env property with bash cut
       run: |
         echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-        echo ${SHORT_COMMIT_SHA}
-    
+        
+    - name: Set release env
+      if: contains(github.ref,'release')
+      run: |
+        echo "DOCKER_TAG= ${GITHUB_REF##*/}" >> $GITHUB_ENV  
+        echo "CONTAINER_NAME= containerrelease" >> $GITHUB_ENV  
+        echo "DNS_NAME= nodementorrelease" >> $GITHUB_ENV               
+        
     - name: Set dev env
       if: github.ref == 'refs/heads/dev'
       run: |
-        echo "DOCKER_TAG = ${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV  
-        echo "CONTAINER_NAME = containerdev" >> $GITHUB_ENV  
+        echo "CONTAINER_NAME= containerdev" >> $GITHUB_ENV  
         echo "DNS_NAME= nodementordev" >> $GITHUB_ENV  
-        
-    - name: Set release env
-      if: contain(github.ref,'release')
-      run: |
-        echo "DOCKER_TAG = release" >> $GITHUB_ENV  
-        echo "CONTAINER_NAME = releasecontainer" >> $GITHUB_ENV  
-        echo "DNS_NAME= nodementorrelease" >> $GITHUB_ENV          
-    
-    - name: Set master env
-      if: contain(github.ref,'master')
-      run: |
-        echo "DOCKER_TAG = latest" >> $GITHUB_ENV  
-        echo "CONTAINER_NAME = prodcontainer" >> $GITHUB_ENV  
-        echo "DNS_NAME= nodementorrelease" >> $GITHUB_ENV          
+        echo "DOCKER_TAG= ${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV   
          
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
@@ -84,22 +76,22 @@ jobs:
     - run: |
         echo ${{ github.sha }}
         echo ${SHORT_COMMIT_SHA}
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${SHORT_COMMIT_SHA}
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${DOCKER_TAG}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${DOCKER_TAG}
+        #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
+        #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
    
-    #- name: 'Deploy to Azure Container Instances'
-    #  uses: 'azure/aci-deploy@v1'
-    #  with:
-    #    resource-group: ${{ secrets.RESOURCE_GROUP }}
-    #    dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-    #    ports: 3000
-    #    image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{ env.SHORT_COMMIT_SHA}}
-    #    registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-    #    registry-username: ${{ secrets.REGISTRY_USERNAME }}
-    #    registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-    #    name: node-app
-    #    location: 'west europe'
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: ${{ secrets.RESOURCE_GROUP }}
+        dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
+        ports: 3000
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{ env.SHORT_COMMIT_SHA}}
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        name: ${{env.CONTAINER_NAME}}
+        location: 'west europe'
 
     
