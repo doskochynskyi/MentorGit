@@ -74,18 +74,19 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${{env.DOCKER_TAG}}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:${{env.DOCKER_TAG}}
-        #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
-        #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${dockerimage}:latest
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
+        #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
+        #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
    
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: ${{ secrets.RESOURCE_GROUP }}
-        dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
+        #dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
+        dns-name-label: ${{ env.DNS_NAME }}
         ports: 3000
-        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{ env.SHORT_COMMIT_SHA}}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
         registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
