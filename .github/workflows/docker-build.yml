@@ -48,16 +48,16 @@ jobs:
     - name: Set release env
       if: contains(github.ref,'release')
       run: |
-        echo "DOCKER_TAG= ${GITHUB_REF##*/}" >> $GITHUB_ENV  
-        echo "CONTAINER_NAME= containerrelease" >> $GITHUB_ENV  
-        echo "DNS_NAME= nodementorrelease" >> $GITHUB_ENV               
+        echo "DOCKER_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV  
+        echo "CONTAINER_NAME=containerrelease" >> $GITHUB_ENV  
+        echo "DNS_NAME=nodementorrelease" >> $GITHUB_ENV               
         
     - name: Set dev env
       if: github.ref == 'refs/heads/dev'
       run: |
-        echo "CONTAINER_NAME= containerdev" >> $GITHUB_ENV  
-        echo "DNS_NAME= nodementordev" >> $GITHUB_ENV  
-        echo "DOCKER_TAG= ${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV   
+        echo "CONTAINER_NAME=containerdev" >> $GITHUB_ENV  
+        echo "DNS_NAME=nodementordev" >> $GITHUB_ENV  
+        echo "DOCKER_TAG=${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV   
          
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
