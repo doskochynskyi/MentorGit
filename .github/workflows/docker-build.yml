@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
        name: container_apply_prod
-    if: contains(github.ref,'release')
+    if: contains(github.ref,'dev')
     steps:
     - name: 'Deploy to Azure Container Instances'
       
