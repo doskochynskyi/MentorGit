@@ -54,7 +54,7 @@ jobs:
         
         
     - name: Check env
-    - run: echo ${RESOURCE_GROUP}
+    - run: echo ${{RESOURCE_GROUP}}
 
  
     #- name: 'Read env'
