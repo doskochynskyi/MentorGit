@@ -96,7 +96,7 @@ jobs:
     
     - name: 'Read environment'
       run: |
-        cat deploy-env/dev/envdata >> $GITHUB_ENV
+        #cat deploy-env/dev/envdata >> $GITHUB_ENV
         echo ${{RESOURCE_GROUP}}
 
     - name: 'Deploy to Azure Container Instances'
