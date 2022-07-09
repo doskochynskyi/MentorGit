@@ -46,11 +46,11 @@ jobs:
       run: |
         echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
  
-    - name: 'Read env'
-      run: |
+    #- name: 'Read env'
+    #  run: |
         #cat deploy-env/dev/envdata >> $GITHUB_ENV
         # echo ${{RESOURCE_GROUP}}
-        echo "Read environment"     
+    #    echo "Read environment"     
         
     - name: Set release env
       if: contains(github.ref,'release')
