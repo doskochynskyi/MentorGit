@@ -45,6 +45,10 @@ jobs:
     - name: Add SHORT_COMMIT_SHA env property with bash cut
       run: |
         echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        
+    - name: Read env
+      run: |
+        echo "read env"
  
     #- name: 'Read env'
     #  run: |
