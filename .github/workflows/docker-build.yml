@@ -51,6 +51,7 @@ jobs:
         echo "read env"
         echo ${dockerimage}
         cat deploy-env/dev/envdata >> $GITHUB_ENV
+        echo ${RESOURCE_GROUP}
 
  
     #- name: 'Read env'
