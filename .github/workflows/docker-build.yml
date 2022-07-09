@@ -50,6 +50,7 @@ jobs:
       run: |
         echo "read env"
         echo ${dockerimage}
+        cat deploy-env/dev/envdata >> $GITHUB_ENV
 
  
     #- name: 'Read env'
