@@ -55,8 +55,7 @@ jobs:
         
     - name: Check env
       run: |
-        echo ${{RESOURCE_GROUP}}
-
+        echo ${dockerimage}
  
     #- name: 'Read env'
     #  run: |
