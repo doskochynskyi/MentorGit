@@ -36,8 +36,9 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     
-  buildanddeploy:
+  build:
     #needs: [test]
+    
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -81,7 +82,15 @@ jobs:
         #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
         #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
    
+  deploy_prod:  
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment:
+       name: container_apply_prod
+    if: contains(github.ref,'release')
+    steps:
     - name: 'Deploy to Azure Container Instances'
+      
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
