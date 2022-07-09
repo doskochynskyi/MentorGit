@@ -45,6 +45,12 @@ jobs:
     - name: Add SHORT_COMMIT_SHA env property with bash cut
       run: |
         echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+ 
+    - name: 'Read env'
+      run: |
+        #cat deploy-env/dev/envdata >> $GITHUB_ENV
+        # echo ${{RESOURCE_GROUP}}
+        echo "Read environment"     
         
     - name: Set release env
       if: contains(github.ref,'release')
@@ -96,11 +102,7 @@ jobs:
     #  with:
     #    creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: 'Read env'
-      run: |
-        #cat deploy-env/dev/envdata >> $GITHUB_ENV
-        # echo ${{RESOURCE_GROUP}}
-        echo "Read environment"
+
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
