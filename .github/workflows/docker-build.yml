@@ -94,10 +94,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     
-    - name: 'Read environment'
-      run: |
+    #- name: 'Read environment'
+    #  run: |
         #cat deploy-env/dev/envdata >> $GITHUB_ENV
-        echo ${{RESOURCE_GROUP}}
+    #    echo ${{RESOURCE_GROUP}}
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
