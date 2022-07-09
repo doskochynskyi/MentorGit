@@ -107,7 +107,7 @@ jobs:
     environment:
        name: container_apply_prod
     
-    #if: contains(github.ref,'dev')
+    if: contains(github.ref,'dev')
     steps:
     - uses: actions/checkout@v3
     - name: 'Login via Azure CLI'
@@ -125,13 +125,13 @@ jobs:
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         #dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
-        dns-name-label: ${{ env.DNS_NAME }}
+        dns-name-label: "nodedev"
         ports: 3000
         image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
         registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        name: ${{env.CONTAINER_NAME}}
+        name: "containerdev"
         location: 'west europe'
 
     
