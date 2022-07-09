@@ -97,7 +97,7 @@ jobs:
     #    creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - name: 'Read env'
-      run: |
+    - run: |
         #cat deploy-env/dev/envdata >> $GITHUB_ENV
         # echo ${{RESOURCE_GROUP}}
         echo 'Read environment'
