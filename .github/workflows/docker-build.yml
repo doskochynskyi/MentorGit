@@ -49,6 +49,8 @@ jobs:
     - name: Read env
       run: |
         echo "read env"
+        cat deploy-env/dev/envdata >> $GITHUB_ENV
+        echo ${{RESOURCE_GROUP}}
  
     #- name: 'Read env'
     #  run: |
