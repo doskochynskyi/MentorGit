@@ -38,8 +38,10 @@ jobs:
     
   build:
     #needs: [test]
-    
     runs-on: ubuntu-latest
+    outputs: 
+        DOCKER_DEV_TAG: ${{ steps.dev_env.outputs.DOCKER_TAG }}
+        DOCKER_RELEASE_TAG: ${{ steps.release_env.outputs.DOCKER_TAG }}
     steps:
     - uses: actions/checkout@v3
     - name: Add SHORT_COMMIT_SHA env property with bash cut
@@ -70,15 +72,18 @@ jobs:
         echo "DOCKER_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV  
         echo "CONTAINER_NAME=containerrelease" >> $GITHUB_ENV  
         echo "DNS_NAME=nodementorrelease" >> $GITHUB_ENV
-        echo "RESOURCE_GROUP=RGprod" >> $GITHUB_ENV
+        #echo "RESOURCE_GROUP=RGprod" >> $GITHUB_ENV
         
     - name: Set dev env
+      id: dev_env
       if: github.ref == 'refs/heads/dev'
       run: |
         echo "CONTAINER_NAME=containerdev" >> $GITHUB_ENV  
         echo "DNS_NAME=nodementordev" >> $GITHUB_ENV  
         echo "DOCKER_TAG=${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV   
-        echo "RESOURCE_GROUP=RGdev" >> $GITHUB_ENV
+        #echo "RESOURCE_GROUP=RGdev" >> $GITHUB_ENV
+        echo "::set-output name=DOCKER_DEV_TAG::${{env.SHORT_COMMIT_SHA}}"
+      
          
     #- name: Build the Docker image
     #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
@@ -119,6 +124,7 @@ jobs:
       run: |
         echo "read env"
         cat deploy-env/dev/envdata >> $GITHUB_ENV
+        echo ${{needs.build.outputs.DOCKER_DEV_TAG}}
 
     - name: 'Deploy to Azure Container Instances'
       uses: 'azure/aci-deploy@v1'
@@ -127,7 +133,7 @@ jobs:
         #dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
         dns-name-label: "nodedev"
         ports: 3000
-        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{needs.build.outputs.DOCKER_DEV_TAG}}
         registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
         registry-username: ${{ secrets.REGISTRY_USERNAME }}
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
