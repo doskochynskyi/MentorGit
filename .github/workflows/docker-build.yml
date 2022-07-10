@@ -68,6 +68,7 @@ jobs:
     #    echo "Read environment"     
         
     - name: Set release env
+      id: release_env
       if: contains(github.ref,'release')
       run: |
         echo "DOCKER_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV  
