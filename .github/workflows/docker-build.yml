@@ -49,17 +49,17 @@ jobs:
       run: |
         echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
         
-    - name: Read env
-      run: |
-        echo "read env"
-        echo ${dockerimage}
-        cat deploy-env/dev/envdata >> $GITHUB_ENV
+    #- name: Read env
+    #  run: |
+    #    echo "read env"
+    #    echo ${dockerimage}
+    #    cat deploy-env/dev/envdata >> $GITHUB_ENV
         
         
-    - name: Check env
-      run: |
-        echo ${RESOURCE_GROUP}
-        echo ${VNET_NAME}
+    #- name: Check env
+    #  run: |
+    #    echo ${RESOURCE_GROUP}
+    #    echo ${VNET_NAME}
  
     #- name: 'Read env'
     #  run: |
