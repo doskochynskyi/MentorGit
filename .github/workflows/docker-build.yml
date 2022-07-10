@@ -73,6 +73,7 @@ jobs:
         echo "CONTAINER_NAME=containerrelease" >> $GITHUB_ENV  
         echo "DNS_NAME=nodementorrelease" >> $GITHUB_ENV
         #echo "RESOURCE_GROUP=RGprod" >> $GITHUB_ENV
+        echo "::set-output name=DOCKER_TAG::${GITHUB_REF##*/}"
         
     - name: Set dev env
       id: dev_env
@@ -105,13 +106,10 @@ jobs:
         #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
         #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
    
-  deploy_prod:  
+  deploy_dev:  
     needs: [build]
     runs-on: ubuntu-latest
-    
-    environment:
-       name: container_apply_prod
-    
+        
     if: contains(github.ref,'dev')
     steps:
     - uses: actions/checkout@v3
@@ -139,5 +137,40 @@ jobs:
         registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         name: "containerdev"
         location: 'west europe'
+        
+  deploy_prod:  
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    environment:
+       name: container_apply_prod
+    
+    if: contains(github.ref,'release')
+    steps:
+    - uses: actions/checkout@v3
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Read env
+      run: |
+        echo "read env"
+        cat deploy-env/prod/envdata >> $GITHUB_ENV
+        echo ${{needs.build.outputs.DOCKER_RELEASE_TAG}}
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        #dns-name-label: ${{ env.DNS_NAME }}${{ github.run_number }}
+        dns-name-label: "noderelease"
+        ports: 3000
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{needs.build.outputs.DOCKER_RELEASE_TAG}}
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        name: "containerrelease"
+        location: 'west europe'
+
 
     
