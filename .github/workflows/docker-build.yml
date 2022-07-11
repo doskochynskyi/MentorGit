@@ -38,7 +38,7 @@ jobs:
     #- run: npm test
     
   build:
-    #needs: [test]
+    needs: [test]
     runs-on: ubuntu-latest
     outputs: 
         DOCKER_DEV_TAG: ${{ steps.dev_env.outputs.DOCKER_TAG }}
