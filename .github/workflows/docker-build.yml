@@ -29,7 +29,8 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       run: |
         echo ${{github.ref}}
-        echo ${{ secrets.AZURE_CREDENTIALS }}
+        echo ${{ secrets.REGISTRY_USERNAME}}
+        #AZURE_CREDENTIALS 
     #  uses: actions/setup-node@v3
     #  with:
     #    node-version: ${{ matrix.node-version }}
