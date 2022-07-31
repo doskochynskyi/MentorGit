@@ -1,0 +1,154 @@
+name: Docker Image CI
+
+on: 
+  push:
+  pull_request:
+    branches: 
+      - master
+      - 'releases/**'
+      - dev
+      
+env:
+  dockerimage: node-docker-mnt
+      
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        #node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      run: |
+        echo ${{github.ref}}
+        echo ${{ secrets.REGISTRY_USERNAME}}
+        #AZURE_CREDENTIALS 
+    #  uses: actions/setup-node@v3
+    #  with:
+    #    node-version: ${{ matrix.node-version }}
+    #    cache: 'npm'
+    #- run: npm ci
+    #- run: npm run build --if-present
+    #- run: npm test
+    
+  build:
+    needs: [test]
+    runs-on: ubuntu-latest
+    outputs: 
+        DOCKER_DEV_TAG: ${{ steps.dev_env.outputs.DOCKER_TAG }}
+        DOCKER_RELEASE_TAG: ${{ steps.release_env.outputs.DOCKER_TAG }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Add SHORT_COMMIT_SHA env property with bash cut
+      run: |
+        echo "SHORT_COMMIT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+        
+    #- name: Read env
+    #  run: |
+    #    echo "read env"
+    #    echo ${dockerimage}
+    #    cat deploy-env/dev/envdata >> $GITHUB_ENV
+        
+        
+    #- name: Check env
+    #  run: |
+    #    echo ${RESOURCE_GROUP}
+    #    echo ${VNET_NAME}
+ 
+    #- name: 'Read env'
+    #  run: |
+        #cat deploy-env/dev/envdata >> $GITHUB_ENV
+        # echo ${{RESOURCE_GROUP}}
+    #    echo "Read environment"     
+        
+    - name: Set release env
+      id: release_env
+      if: contains(github.ref,'release')
+      run: |
+        echo "DOCKER_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV  
+        echo "CONTAINER_NAME=containerrelease" >> $GITHUB_ENV  
+        echo "DNS_NAME=nodementorrelease" >> $GITHUB_ENV
+        #echo "RESOURCE_GROUP=RGprod" >> $GITHUB_ENV
+        echo "::set-output name=DOCKER_TAG::${GITHUB_REF##*/}"
+        
+    - name: Set dev env
+      id: dev_env
+      if: github.ref == 'refs/heads/dev'
+      run: |
+        echo "CONTAINER_NAME=containerdev" >> $GITHUB_ENV  
+        echo "DNS_NAME=nodementordev" >> $GITHUB_ENV  
+        echo "DOCKER_TAG=${{env.SHORT_COMMIT_SHA}}" >> $GITHUB_ENV   
+        #echo "RESOURCE_GROUP=RGdev" >> $GITHUB_ENV
+        echo "::set-output name=DOCKER_TAG::${{env.SHORT_COMMIT_SHA}}"
+      
+         
+    #- name: Build the Docker image
+    #  run: docker build . --file Dockerfile --tag ${dockerimage}:${SHORT_COMMIT_SHA}
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+        docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:${{env.DOCKER_TAG}}
+        #docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
+        #docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.dockerimage}}:latest
+   
+  deploy_dev:  
+    needs: [build]
+    runs-on: ubuntu-latest
+        
+    if: contains(github.ref,'dev')
+    steps:
+    - uses: actions/checkout@v3
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Read env
+      run: |
+        echo "read env"
+        cat deploy-env/dev/envdata >> $GITHUB_ENV
+        echo ${{needs.build.outputs.DOCKER_DEV_TAG}}
+
+        
+  deploy_prod:  
+    needs: [build]
+    runs-on: ubuntu-latest
+    
+    environment:
+       name: container_apply_prod
+    
+    if: contains(github.ref,'release')
+    steps:
+    - uses: actions/checkout@v3
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Read env
+      run: |
+        echo "read env"
+        cat deploy-env/prod/envdata >> $GITHUB_ENV
+        echo ${{needs.build.outputs.DOCKER_RELEASE_TAG}}
+
+
+    
