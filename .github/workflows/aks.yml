@@ -129,7 +129,7 @@ jobs:
         echo ${{needs.build.outputs.DOCKER_DEV_TAG}}
       
     - name: Run build script
-      run: ./scripts/devfile.sh
+      run: ./scripts/devfile.sh ${{needs.build.outputs.DOCKER_DEV_TAG}}
       shell: bash
         
   deploy_prod:  

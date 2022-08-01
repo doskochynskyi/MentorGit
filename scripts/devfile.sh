@@ -1,5 +1,7 @@
 echo "Text from dev script file"
 
+echo $1
+
 git config user.name Ivan
 git config user.email ivan.doskochynskyi@gmail.com
 #git commit -am "Config file copied from MentorTF module"
