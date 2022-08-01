@@ -17,4 +17,4 @@ fi
 cd ./aksrepo
 
 git clone https://github.com/doskochynskyi/MentorAKS.git
-ls 
+less MentorAKS/values-dev.yaml
