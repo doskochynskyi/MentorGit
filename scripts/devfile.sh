@@ -16,10 +16,10 @@ else
     echo "Directory exists."
 fi
 
-cd ./aksrepo/MentorAKS
+cd ./aksrepo
 
 git clone https://github.com/doskochynskyi/MentorAKS.git
-
+cd MentorAKS
 cat values-dev.yaml | sed  's/tag: "[a-zA-Z0-9]\{8\}"/tag: \"'$1'\"/' > new-values-dev.yaml
 mv  new-values-dev.yaml values-dev.yaml
 less values-dev.yaml
