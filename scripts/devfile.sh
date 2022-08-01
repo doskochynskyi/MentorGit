@@ -13,3 +13,8 @@ then
 else
     echo "Directory exists."
 fi
+
+cd ./aksrepo
+
+git clone https://github.com/doskochynskyi/MentorAKS.git
+ls 
