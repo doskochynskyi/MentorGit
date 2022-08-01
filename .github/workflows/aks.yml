@@ -117,14 +117,7 @@ jobs:
     if: contains(github.ref,'dev')
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Checkout MentorAKS repo
-      uses: actions/checkout@master
-      with: 
-        repository: doskochynskyi/MentorGit
-        token: ${{ secrets.GA_PushToMentorAKS }}
-        path: ./MentorAKS
-    
+     
     - name: 'Login via Azure CLI'
       uses: azure/login@v1
       with:
@@ -137,7 +130,7 @@ jobs:
         echo ${{needs.build.outputs.DOCKER_DEV_TAG}}
       
     - name: Run build script
-      run: ./scripts/devfile.sh ${{needs.build.outputs.DOCKER_DEV_TAG}}
+      run: ./scripts/devfile.sh ${{needs.build.outputs.DOCKER_DEV_TAG}} ${{ secrets.GA_PushToMentorAKS }}
       shell: bash
         
   deploy_prod:  
