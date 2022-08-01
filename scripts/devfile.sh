@@ -19,4 +19,6 @@ fi
 cd ./aksrepo
 
 git clone https://github.com/doskochynskyi/MentorAKS.git
-less MentorAKS/values-dev.yaml
+
+cat MentorAKS/values-dev.yaml | sed  's/tag: "[a-zA-Z0-9]\{8\}"/tag: \"'$newtag'\"/' > MentorAKS/new-values-dev.yaml
+less MentorAKS/new-values-dev.yaml
