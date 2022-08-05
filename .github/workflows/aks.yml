@@ -129,7 +129,7 @@ jobs:
         cat deploy-env/dev/envdata >> $GITHUB_ENV
         echo ${{needs.build.outputs.DOCKER_DEV_TAG}}
       
-    - name: Run build script
+    - name: Pass dev image tag to AKS repo
       run: ./scripts/devfile.sh ${{needs.build.outputs.DOCKER_DEV_TAG}} ${{ secrets.GA_PushToMentorAKS }}
       shell: bash
         
